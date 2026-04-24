@@ -4,9 +4,9 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_pinecone import PineconeVectorStore
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from app.core.config import Settings
+from app.core.config import get_settings
 
-config = Settings() # type: ignore
+config = get_settings()
 os.environ["PINECONE_API_KEY"] = config.PINECONE_API_KEY
 os.environ["OPENAI_API_KEY"] = config.OPENAI_API_KEY
 

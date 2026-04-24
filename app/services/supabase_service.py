@@ -1,5 +1,5 @@
 from supabase import Client,create_client
-from app.core.config import Settings
+from app.core.config import get_settings
 
-config = Settings() # type: ignore
+config = get_settings()
 sc :Client = create_client(config.SUPABASE_URL,config.SUPABASE_KEY)
