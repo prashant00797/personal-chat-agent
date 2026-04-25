@@ -1,7 +1,6 @@
 from langgraph.graph import END, START, StateGraph
 from app.agent.nodes import if_tool_call, llm_node, tool_node
 from app.agent.state import AgentState
-from app.db.checkpointer import getcheckpointer
 
 
 def create_agent_graph(checkpointer):

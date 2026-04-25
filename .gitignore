@@ -9,6 +9,7 @@ wheels/
 knowledge_base/
 **__init__.py
 mock_data
+*.json
 
 # Virtual environments
 .venv

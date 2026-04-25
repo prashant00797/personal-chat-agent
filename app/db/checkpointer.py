@@ -1,15 +1,23 @@
-from langgraph.checkpoint.postgres import PostgresSaver
+import asyncio
+import sys
 
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    
+from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
 from app.core.config import get_settings
 
 config = get_settings()
 
 def getcheckpointer():
-    return PostgresSaver.from_conn_string(config.SUPABASE_DB_SESSION_POOLER)
+    return AsyncPostgresSaver.from_conn_string(config.SUPABASE_DB_SESSION_POOLER)
 
 
 # run once to create the table - uv run app.db.checkpointer
 if __name__ == "__main__":
-    with getcheckpointer() as cp:
-        cp.setup()
-        print("✅ Tables created")
+    import asyncio
+    async def setup():
+        async with getcheckpointer() as cp:
+            await cp.setup()
+            print("Tables created")
+    asyncio.run(setup())

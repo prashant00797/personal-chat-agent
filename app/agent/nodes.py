@@ -7,7 +7,7 @@ from app.core.config import get_settings
 from app.tools.rag_tool import retrieve_relevant_chunks
 from app.tools.github_tool import get_repo_info
 from app.tools.user_capture_tool import capture_user_info
-from app.agent.prompt import system_prompt
+from app.agent.prompt import system_pmt_agent
 
 
 config = get_settings()
@@ -19,7 +19,7 @@ llm_with_tools = llm_openai.bind_tools(tools=toolkit) # type: ignore
 
 def llm_node(state:AgentState):
     message = state["messages"]
-    result = llm_with_tools.invoke([system_prompt] + message)
+    result = llm_with_tools.invoke([system_pmt_agent] + message)
     return {
         "messages":[result]
     }
