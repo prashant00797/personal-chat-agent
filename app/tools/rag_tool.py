@@ -7,6 +7,7 @@ from app.services.pinecone_service import pc_index
 # Initialization
 config = get_settings()
 os.environ["OPENAI_API_KEY"] = config.OPENAI_API_KEY
+emedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
 
 @tool
 def retrieve_relevant_chunks(query:str):
@@ -17,8 +18,7 @@ def retrieve_relevant_chunks(query:str):
         salary expectations, contact information, or personal interests.
         When in doubt about anything related to Prashant — use this tool first.
         Input: a natural language question string.
-    """
-    emedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
+    """  
     query_embeddings = emedding_model.embed_query(query)
     relevant_chunks = pc_index.query(
     vector=query_embeddings,
@@ -34,8 +34,3 @@ def retrieve_relevant_chunks(query:str):
 
         for chunks in relevant_chunks["matches"] # type: ignore
     ]
-
-
-# test
-# res = retrieve_relevant_chunks("What is prashants hobby")
-# print(res)

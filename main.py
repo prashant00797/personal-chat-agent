@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from app.agent.graph import create_agent_graph
 from app.api.routes import chat_router,register_router
 from app.db.checkpointer import getcheckpointer
@@ -21,6 +22,13 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+    allow_credentials=True
+)
 
 app.include_router(register_router.router,prefix="/api")
 app.include_router(chat_router.router,prefix="/api")

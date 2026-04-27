@@ -11,11 +11,5 @@ def capture_user_info(thread_id:str,company:str="",email:str=""):
         At least one of company or email must be present to trigger this tool.
         Never call this proactively — only when the user volunteers the information.
     """
-    print(thread_id,company,email)
     sc.table("users").update({"company":company,"email":email}).eq("id",thread_id).execute()
     return "User Successfully added"
-
-
-# test
-# res = register_user({"name":"rohit","company":"meta","email":"r@g.co"})
-# print(res)

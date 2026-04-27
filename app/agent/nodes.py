@@ -9,7 +9,6 @@ from app.tools.github_tool import get_repo_info
 from app.tools.user_capture_tool import capture_user_info
 from app.agent.prompt import system_pmt_agent
 
-
 config = get_settings()
 os.environ["OPENAI_API_KEY"] = config.OPENAI_API_KEY
 
@@ -19,7 +18,10 @@ llm_with_tools = llm_openai.bind_tools(tools=toolkit) # type: ignore
 
 def llm_node(state:AgentState):
     message = state["messages"]
-    result = llm_with_tools.invoke([system_pmt_agent] + message)
+    if not any(msg.type == "system" for msg in message):
+        result = llm_with_tools.invoke([system_pmt_agent] + message)
+    else:
+        result = llm_with_tools.invoke(message)
     return {
         "messages":[result]
     }

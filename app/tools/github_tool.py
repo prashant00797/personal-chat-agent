@@ -31,7 +31,3 @@ def get_repo_info():
             }
         for content in data
     ]
-
-# test  
-# res = get_repo_info()
-# print(res)
