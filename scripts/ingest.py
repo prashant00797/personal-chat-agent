@@ -18,7 +18,7 @@ splitter = RecursiveCharacterTextSplitter(chunk_size=500,chunk_overlap=100)
 
 # pincone intialization
 pc = Pinecone(pinecone_api_key=config.PINECONE_API_KEY)
-index = pc.Index(config.PINECONE_INDEX_NAME) # type: ignore
+index = pc.Index(config.PINECONE_INDEX_NAME)
 index.delete(delete_all=True)
 
 # indexing

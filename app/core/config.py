@@ -10,11 +10,10 @@ class Settings(BaseSettings):
     PINECONE_HOST:str
     SUPABASE_URL:str
     SUPABASE_KEY:str
-    SUPABASE_DB_SESSION_POOLER:str
     GITHUB_BASE_URL:str
 
     model_config = SettingsConfigDict(env_file=".env")
 
 @lru_cache
 def get_settings():
-    return Settings() # type: ignore
+    return Settings()  # type: ignore

@@ -14,7 +14,7 @@ os.environ["OPENAI_API_KEY"] = config.OPENAI_API_KEY
 
 llm_openai = ChatOpenAI(model="gpt-4o-mini",temperature=0.0)
 toolkit = [retrieve_relevant_chunks,get_repo_info,capture_user_info]
-llm_with_tools = llm_openai.bind_tools(tools=toolkit) # type: ignore
+llm_with_tools = llm_openai.bind_tools(tools=toolkit) 
 
 def llm_node(state:AgentState):
     message = state["messages"]
@@ -27,14 +27,12 @@ def llm_node(state:AgentState):
     }
 
 
-def tool_node(state:AgentState,config):
+def tool_node(state:AgentState):
     message = state["messages"]
     tool_by_name = { tool.name : tool for tool in toolkit}
     tool_result = []
-    for tool_call in message[-1].tool_calls: # type: ignore
+    for tool_call in message[-1].tool_calls:  # type: ignore
         tool = tool_by_name[tool_call["name"]]
-        if tool_call["name"] == "capture_user_info":
-            tool_call["args"]["thread_id"] = config["configurable"]["thread_id"]
         observation = tool.invoke(tool_call["args"])
         content = json.dumps(observation) if isinstance(observation,list) else observation
         tool_result.append(ToolMessage(content=content,tool_call_id=tool_call["id"]))
@@ -45,7 +43,7 @@ def tool_node(state:AgentState,config):
 
 def if_tool_call(state:AgentState):
     last_message = state["messages"][-1]
-    if last_message.tool_calls: # type: ignore
+    if last_message.tool_calls:  # type: ignore
         return "goto_tool_node"
     else:
         return "goto_end"
