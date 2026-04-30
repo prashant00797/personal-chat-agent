@@ -15,7 +15,7 @@ app = FastAPI(
     title="Portfolio Assistant API",
     description="Agentic AI backend for portfolio chatbot",
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
     )
 
 app.add_middleware(
@@ -26,7 +26,7 @@ app.add_middleware(
 )
 
 
-app.include_router(chat_router.router)
+app.include_router(chat_router.router,prefix="/api")
 
 
 @app.api_route("/health",methods=["GET","HEAD"])
