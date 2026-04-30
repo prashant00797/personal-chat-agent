@@ -29,6 +29,6 @@ app.add_middleware(
 app.include_router(chat_router.router)
 
 
-@app.get("/health")
+@app.api_route("/health",methods=["GET","HEAD"])
 async def health():
     return {"status": "ok"}
