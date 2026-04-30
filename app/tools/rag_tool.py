@@ -14,8 +14,8 @@ def retrieve_relevant_chunks(query:str):
     """
         Search Prashant's personal knowledge base to answer questions about him.
         Use this for questions about his background, experience, skills, tech stack,
-        education, projects overview, availability, location, job preferences,
-        salary expectations, contact information, or personal interests.
+        education, availability, location, job preferences,
+        salary expectations, contact information or personal interests.
         When in doubt about anything related to Prashant — use this tool first.
         Input: a natural language question string.
     """  

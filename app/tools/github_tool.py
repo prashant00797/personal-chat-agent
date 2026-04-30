@@ -1,4 +1,3 @@
-from fastapi import HTTPException
 from langchain.tools import tool
 import requests
 from app.core.config import get_settings
@@ -10,10 +9,10 @@ def get_repo_info():
 
     """
       Fetch Prashant's live public GitHub repositories.
-      Use this ONLY when the user explicitly asks about his GitHub,
-      his repos, what he has built recently, or wants project links.
-      Do NOT use this for general project questions — use the RAG tool for those.
-      Returns a formatted list of repo names, urls, descriptions and language.
+      Use this for ANY question about projects — specific project names, 
+      what he has built, recent work, or project links.
+      Also use alongside RAG when user asks about his work generally.
+      Returns repo names, URLs, descriptions and language.
     """
 
     response = requests.get(config.GITHUB_BASE_URL)

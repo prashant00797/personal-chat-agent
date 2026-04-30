@@ -1,4 +1,5 @@
 import os
+import traceback
 from pinecone import Pinecone
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.document_loaders import PyPDFLoader
@@ -16,20 +17,23 @@ loader = PyPDFLoader(document_path)
 splitter = RecursiveCharacterTextSplitter(chunk_size=500,chunk_overlap=100)
 
 
-# pincone intialization
+# pincone client intialization
 pc = Pinecone(pinecone_api_key=config.PINECONE_API_KEY)
 index = pc.Index(config.PINECONE_INDEX_NAME)
-index.delete(delete_all=True)
+index.delete(delete_all=True) # clear existing vectors before re-indexing
 
-# indexing
-if(os.path.exists(document_path)):
-   docs = loader.load()
-   chunks = splitter.split_documents(docs)
-   embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
-   vector_store = PineconeVectorStore.from_documents(
+try:
+
+   if(os.path.exists(document_path)):
+      docs = loader.load()
+      chunks = splitter.split_documents(docs)
+      embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+      vector_store = PineconeVectorStore.from_documents(
        documents=chunks,
        embedding=embeddings,
        index_name=config.PINECONE_INDEX_NAME
-   )
-else:
-   print("Document not Found",document_path)
+      )
+      print("Indexing Successful",len(chunks));
+except Exception as e:
+   traceback.print_exc()
+   raise e

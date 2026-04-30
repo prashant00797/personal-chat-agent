@@ -2,20 +2,19 @@ import asyncio
 import json
 from fastapi.responses import StreamingResponse
 from langchain_core.messages import HumanMessage
-from app.agent.graph import create_agent_graph
-from app.services.supabase_service import sc
 
 
-async def ai_reponse(user_request):
-   graph = create_agent_graph()
+async def ai_reponse(user_request,req):
+   graph = req.app.state.graph
    messages = [HumanMessage(content=user_request.message)]
-  
+   config = {'configurable':{'thread_id':user_request.thread_id}}
 
 # STREAMING
    async def event_generator():
         try:
             async for event in graph.astream_events(
                 {"messages": messages},
+                config=config,
                 version="v2"
             ):
                 kind = event.get("event")
@@ -29,7 +28,7 @@ async def ai_reponse(user_request):
                     if chunk and getattr(chunk, "content", None):
                         token = chunk.content
                         yield f"data: {json.dumps({'type': 'token', 'content': token})}\n\n"
-                        await asyncio.sleep(0.03)
+                        await asyncio.sleep(0.09)
 
 
             yield f"data: {json.dumps({'type': 'end'})}\n\n"

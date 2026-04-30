@@ -1,7 +1,7 @@
 [project]
 name = "code"
-version = "0.1.0"
-description = "Add your description here"
+version = "1.0.0"
+description = "A plug-and-play ReAct agent for developer portfolios. Built with LangGraph, RAG, Python, FastAPI and Next.js."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -12,10 +12,8 @@ dependencies = [
     "langchain-openai>=1.2.0",
     "langchain-pinecone>=0.2.13",
     "langgraph>=1.1.9",
-    "langgraph-checkpoint-postgres>=3.0.5",
     "pinecone>=7.3.0",
     "psycopg[binary]>=3.3.3",
-    "pydantic[email]>=2.13.3",
     "pypdf>=6.10.2",
     "supabase>=2.28.3",
     "uvicorn>=0.46.0",
