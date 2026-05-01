@@ -1,8 +1,9 @@
 import asyncio
 import json
+import os
 from fastapi.responses import StreamingResponse
 from langchain_core.messages import HumanMessage
-
+stream_delay = float(os.getenv("STREAM_DELAY","0.09"))
 
 async def ai_reponse(user_request,req):
    graph = req.app.state.graph
@@ -28,7 +29,7 @@ async def ai_reponse(user_request,req):
                     if chunk and getattr(chunk, "content", None):
                         token = chunk.content
                         yield f"data: {json.dumps({'type': 'token', 'content': token})}\n\n"
-                        # await asyncio.sleep(0.09) -> removing since latency already there due to render server at virginia.
+                        await asyncio.sleep(stream_delay)
 
 
             yield f"data: {json.dumps({'type': 'end'})}\n\n"
