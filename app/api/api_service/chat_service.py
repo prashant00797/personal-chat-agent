@@ -28,7 +28,7 @@ async def ai_reponse(user_request,req):
                     if chunk and getattr(chunk, "content", None):
                         token = chunk.content
                         yield f"data: {json.dumps({'type': 'token', 'content': token})}\n\n"
-                        await asyncio.sleep(0.09)
+                        # await asyncio.sleep(0.09) -> removing since latency already there due to render server at virginia.
 
 
             yield f"data: {json.dumps({'type': 'end'})}\n\n"
