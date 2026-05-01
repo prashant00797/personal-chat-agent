@@ -85,6 +85,7 @@ PINECONE_HOST=
 SUPABASE_URL=
 SUPABASE_KEY=
 GITHUB_BASE_URL=https://api.github.com/users/YOUR_USERNAME/repos
+STREAM_DELAY=
 ```
 
 ### 3. Add your knowledge base
