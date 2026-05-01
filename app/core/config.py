@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     SUPABASE_URL:str
     SUPABASE_KEY:str
     GITHUB_BASE_URL:str
+    STREAM_DELAY:str
 
     model_config = SettingsConfigDict(env_file=".env")
 

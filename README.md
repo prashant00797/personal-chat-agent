@@ -106,7 +106,7 @@ This embeds your document and pushes vectors to Pinecone.
 
 ### 5. Update the system prompt
 
-Edit `app/agent/prompt.py` — replace Prashant's details with your own name, contact info, and persona.
+Edit `app/agent/prompt.py` — replace Prashant's details with your own name, contact info and persona.
 
 ### 6. Run the server
 
