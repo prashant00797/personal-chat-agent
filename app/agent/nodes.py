@@ -18,10 +18,7 @@ llm_with_tools = llm_openai.bind_tools(tools=toolkit)
 
 def llm_node(state:AgentState):
     message = state["messages"]
-    if not any(msg.type == "system" for msg in message):
-        result = llm_with_tools.invoke([system_pmt_agent] + message)
-    else:
-        result = llm_with_tools.invoke(message)
+    result = llm_with_tools.invoke([system_pmt_agent] + message)
     return {
         "messages":[result]
     }
