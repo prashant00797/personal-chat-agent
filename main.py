@@ -1,8 +1,11 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from slowapi.errors import RateLimitExceeded
+from slowapi import _rate_limit_exceeded_handler
 from app.agent.graph import create_agent_graph
 from app.api.routes import chat_router
+from app.core.limiter import limiter
 
 @asynccontextmanager
 async def lifespan(app:FastAPI):
@@ -17,6 +20,8 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan,
     )
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded,_rate_limit_exceeded_handler) # type: ignore
 
 app.add_middleware(
     CORSMiddleware,

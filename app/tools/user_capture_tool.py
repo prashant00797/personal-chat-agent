@@ -10,22 +10,28 @@ def capture_user_info(name:str="",company:str="",email:str=""):
         Extract whatever fields are available from the conversation and pass them to the tool.
         The tool will validate before saving.
     """
-    email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    existing = sc.table("users").select("id").eq("email", email).execute()
+    try:
+     email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+      
+     if not re.match(email_regex, email):
+         return "Email address looks invalid. Please provide a valid email like name@company.com"
+     
+     elif not name or not company or not email:
+         return "I'd be happy to save your details! Please share your name, company and email together in one message."
+     
+     existing = sc.table("users").select("id").eq("email", email).execute()
     
-    if not re.match(email_regex, email):
-        return "Email address looks invalid. Please provide a valid email like name@company.com"
+     if existing.data:
+         return "Details already saved. Prashant will be in touch!"
     
-    elif existing.data:
-        return "Details already saved. Prashant will be in touch!"
     
-    elif not name or not company or not email:
-        return "I'd be happy to save your details! Please share your name, company and email together in one message."
     
-    sc.table("users").insert({
-        "name":name,
-        "email":email,
-        "company":company
-    }).execute()
+     sc.table("users").insert({
+         "name":name,
+         "email":email,
+         "company":company
+     }).execute()
     
-    return "User Successfully added"
+     return "User Successfully added"
+    except Exception:
+       return "Something went wrong while saving your details. Please try sharing them again or reach out to Prashant directly at prashantnath6307@gmail.com."

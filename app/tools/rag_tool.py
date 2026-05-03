@@ -18,19 +18,22 @@ def retrieve_relevant_chunks(query:str):
         salary expectations, contact information or personal interests.
         When in doubt about anything related to Prashant — use this tool first.
         Input: a natural language question string.
-    """  
-    query_embeddings = emedding_model.embed_query(query)
-    relevant_chunks = pc_index.query(
-    vector=query_embeddings,
-    top_k=5, 
-    include_metadata=True,
-    include_values=False)
+    """ 
+    try: 
+     query_embeddings = emedding_model.embed_query(query)
+     relevant_chunks = pc_index.query(
+     vector=query_embeddings,
+     top_k=5, 
+     include_metadata=True,
+     include_values=False)
     
-    return [
+     return [
         {
             "text":chunks.metadata["text"],
             "source":chunks.metadata["source"]
         }
 
         for chunks in relevant_chunks["matches"] # type: ignore
-    ]
+      ]
+    except Exception:
+       return "Knowledge base temporarily unavailable."

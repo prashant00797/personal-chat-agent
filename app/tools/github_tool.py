@@ -14,14 +14,14 @@ def get_repo_info():
       Also use alongside RAG when user asks about his work generally.
       Returns repo names, URLs, descriptions and language.
     """
-
-    response = requests.get(config.GITHUB_BASE_URL)
-    if response.status_code == 200:
+    try:
+     response = requests.get(config.GITHUB_BASE_URL,timeout=5)
+     if response.status_code == 200:
         data = response.json()
-    else:
-        raise Exception("GitHub API request failed. Please try again later.")
+     else:
+        return "GitHub API request failed. Please try again later."
    
-    return [
+     return [
             {
                 "repo_name":content.get("name",""),
                 "url":content.get("html_url",""),
@@ -29,4 +29,8 @@ def get_repo_info():
                 "language":content.get("language","")
             }
         for content in data
-    ]
+     ]
+    except requests.exceptions.Timeout:
+       return "Github API Timeout. Please try again later"
+    except Exception:
+       return "GitHub repositories are temporarily unavailable. Please try again later."

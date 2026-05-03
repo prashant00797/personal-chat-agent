@@ -15,6 +15,7 @@ dependencies = [
     "pinecone>=7.3.0",
     "psycopg[binary]>=3.3.3",
     "pypdf>=6.10.2",
+    "slowapi>=0.1.9",
     "supabase>=2.28.3",
     "uvicorn>=0.46.0",
 ]

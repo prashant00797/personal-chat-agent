@@ -5,8 +5,8 @@ from fastapi.responses import StreamingResponse
 from langchain_core.messages import HumanMessage
 stream_delay = float(os.getenv("STREAM_DELAY","0.09"))
 
-async def ai_reponse(user_request,req):
-   graph = req.app.state.graph
+async def ai_reponse(user_request,request ):
+   graph = request.app.state.graph
    messages = [HumanMessage(content=user_request.message)]
    config = {'configurable':{'thread_id':user_request.thread_id}}
 
