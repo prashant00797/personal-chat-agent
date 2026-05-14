@@ -4,6 +4,10 @@ A ReAct agent backend for developer portfolio chatbots. Built with LangGraph, RA
 
 Live demo: [prashantnathv2.netlify.app](https://prashantnathv2.netlify.app)
 
+## Architecture Diagrams
+
+See `docs/architecture/`
+
 ---
 
 ## What it does
@@ -46,7 +50,7 @@ app/
 │   └── routes/
 │       └── chat_router.py    # /chat endpoint
 ├── core/
-│   └── config.py         # Environment variables
+│   └── config.py         # Environment variables settings
 ├── services/
 │   ├── pinecone_service.py
 │   └── supabase_service.py
